@@ -21,6 +21,13 @@ public class IntroprojectApplication {
 //Git
 //Spring Boot
 //Postgres
+//image: postgres:latest
+//containername: PostgresContainer
+//ports: host: 5433, containerport: 5432
+//POSTGRES_DB: db1
+//POSTGRES_PASSWORD: 5454
+//POSTGRES_USER: postuser
+//localhost 5433 postuser 5454 db1
 //Docker Desktop
 //Postman
 //
