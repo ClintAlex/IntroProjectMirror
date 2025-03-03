@@ -1,7 +1,6 @@
 package com.internship.introproject.controller;
 
 import com.internship.introproject.dto.UserDTO;
-import com.internship.introproject.repository.UserRepository;
 import com.internship.introproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

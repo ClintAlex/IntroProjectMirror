@@ -1,7 +1,5 @@
 package com.internship.introproject.dto;
 
-import jakarta.persistence.Id;
-
 public class UserDTO {
     private long id;
     private int userId;
