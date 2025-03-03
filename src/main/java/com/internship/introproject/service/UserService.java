@@ -15,8 +15,10 @@ public class UserService {
     @Autowired
     public ModelMapper modelMapper;
 
+    @Transactional
     public UserDTO saveUser(UserDTO userDTO){
-        userRepository.save(modelMapper.map(userDTO, User.class));
-        return userDTO;
+        User user = modelMapper.map(userDTO, User.class);
+        user = userRepository.save(user);
+        return modelMapper.map(user, UserDTO.class);
     }
 }

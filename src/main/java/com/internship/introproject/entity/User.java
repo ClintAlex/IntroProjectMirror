@@ -1,13 +1,14 @@
 package com.internship.introproject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
 
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private int userId;
     private String title;
     private String body;
@@ -15,18 +16,17 @@ public class User {
     public User() {
     }
 
-    public User(int id, int userId, String title, String body) {
-        super();
+    public User(Long id, int userId, String title, String body) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.body = body;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     public int getUserId() {
