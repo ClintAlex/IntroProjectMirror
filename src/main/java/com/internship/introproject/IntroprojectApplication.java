@@ -16,3 +16,15 @@ public class IntroprojectApplication {
 		return new ModelMapper();
 	}
 }
+//Prøv at sætte alt dette op og sørg for at det snakker sammen:
+//
+//Git
+//Spring Boot
+//Postgres
+//Docker Desktop
+//Postman
+//
+//Test case:
+//JSONPlaceholder https://jsonplaceholder.typicode.com/
+//
+//gem /posts ned i postgres som kører i Docker ved hjælp af Spring
