@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class User {
 
     @Id
-    private Long id; // JSON "id", now the primary key
+    private Long id;
 
     @Column(name = "userId", nullable = false)
     private int userId;

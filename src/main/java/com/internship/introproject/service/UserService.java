@@ -8,8 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserService {
     @Autowired
@@ -20,12 +18,10 @@ public class UserService {
 
     @Transactional
     public UserDTO saveUser(UserDTO userDTO) {
-        // Check if id already exists (to avoid overwriting)
         if (userRepository.existsById(userDTO.getId())) {
-            throw new RuntimeException("A post with id " + userDTO.getId() + " already exists!");
+            throw new RuntimeException("Post med id " + userDTO.getId() + " findes allerede");
         }
 
-        // Convert DTO to Entity and save
         User user = modelMapper.map(userDTO, User.class);
         user = userRepository.save(user);
 
