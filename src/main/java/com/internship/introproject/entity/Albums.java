@@ -3,8 +3,8 @@ package com.internship.introproject.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "posts")
-public class User {
+@Table(name = "albums")
+public class Albums {
 
     @Id
     private Long id;
@@ -15,17 +15,13 @@ public class User {
     @Column(nullable = false, length = 255)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String body;
-
-    public User() {
+    public Albums() {
     }
 
-    public User(Long id, int userId, String title, String body) {
+    public Albums(Long id, int userId, String title, String body) {
         this.id = id;
         this.userId = userId;
         this.title = title;
-        this.body = body;
     }
 
     public Long getId() {
@@ -52,11 +48,4 @@ public class User {
         this.title = title;
     }
 
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
 }
