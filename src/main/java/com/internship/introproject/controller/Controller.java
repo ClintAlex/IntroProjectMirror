@@ -1,13 +1,13 @@
 package com.internship.introproject.controller;
 
 import com.internship.introproject.dto.*;
+import com.internship.introproject.repository.*;
 import com.internship.introproject.service.EntityService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,6 +15,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "api/v1/db")
 public class Controller {
+
+    AlbumsRepository albumsRepository;
+    CommentsRepository commentsRepository;
+    PhotosRepository photosRepository;
+    PostsRepository postsRepository;
+    TodosRepository todosRepository;
+    UsersRepository usersRepository;
+    ModelMapper modelMapper;
 
     @Autowired
     EntityService entityService;
@@ -26,10 +34,24 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("getPosts")
+    public List<PostsDTO> getPosts() {
+        return postsRepository.findAll().stream()
+                .map(posts -> modelMapper.map(posts, PostsDTO.class))
+                .collect(Collectors.toList());
+    }
+
     @PostMapping("saveComments")
     public List<CommentsDTO> saveComments(@RequestBody List<CommentsDTO> commentsDTOs) {
         return commentsDTOs.stream()
                 .map(entityService::saveComments)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("getComments")
+    public List<CommentsDTO> getComments() {
+        return commentsRepository.findAll().stream()
+                .map(comments -> modelMapper.map(comments, CommentsDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -40,10 +62,24 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("getAlbums")
+    public List<AlbumsDTO> getAlbums() {
+        return albumsRepository.findAll().stream()
+                .map(albums -> modelMapper.map(albums, AlbumsDTO.class))
+                .collect(Collectors.toList());
+    }
+
     @PostMapping("savePhotos")
     public List<PhotosDTO> savePhotos(@RequestBody List<PhotosDTO> photosDTOs) {
         return photosDTOs.stream()
                 .map(entityService::savePhotos)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("getPhotos")
+    public List<PhotosDTO> getPhotos() {
+        return photosRepository.findAll().stream()
+                .map(photos -> modelMapper.map(photos, PhotosDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -54,10 +90,24 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("getTodos")
+    public List<TodosDTO> getTodos() {
+        return todosRepository.findAll().stream()
+                .map(todos -> modelMapper.map(todos, TodosDTO.class))
+                .collect(Collectors.toList());
+    }
+
     @PostMapping("saveUsers")
     public List<UsersDTO> saveUsers(@RequestBody List<UsersDTO> usersDTOs) {
         return usersDTOs.stream()
                 .map(entityService::saveUsers)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("getUsers")
+    public List<UsersDTO> getUsers() {
+        return usersRepository.findAll().stream()
+                .map(user -> modelMapper.map(user, UsersDTO.class))
                 .collect(Collectors.toList());
     }
 
