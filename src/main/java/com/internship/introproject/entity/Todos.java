@@ -1,11 +1,6 @@
 package com.internship.introproject.entity;
 
 import jakarta.persistence.*;
-import jdk.jfr.BooleanFlag;
-import org.hibernate.annotations.Type;
-import org.hibernate.type.TrueFalseConverter;
-
-import java.util.BitSet;
 
 @Entity
 @Table(name = "todos")

@@ -8,13 +8,27 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service
-public class Service {
+public class EntityService {
+
+    private final ModelMapper modelMapper;
+    private final PostsRepository postsRepository;
+    private final CommentsRepository commentsRepository;
+    private final AlbumsRepository albumsRepository;
+    private final PhotosRepository photosRepository;
+    private final TodosRepository todosRepository;
+    private final UsersRepository usersRepository;
 
     @Autowired
-    public ModelMapper modelMapper;
+    public EntityService(ModelMapper modelMapper, PostsRepository postsRepository, CommentsRepository commentsRepository, AlbumsRepository albumsRepository, PhotosRepository photosRepository, TodosRepository todosRepository, UsersRepository usersRepository){
+        this.modelMapper = modelMapper;
+        this.postsRepository = postsRepository;
+        this.commentsRepository = commentsRepository;
+        this.albumsRepository = albumsRepository;
+        this.photosRepository = photosRepository;
+        this.todosRepository = todosRepository;
+        this.usersRepository = usersRepository;
+    }
 
-    @Autowired
-    private PostsRepository postsRepository;
     @Transactional
     public PostsDTO savePosts(PostsDTO postsDTO) {
         if (postsRepository.existsById(postsDTO.getId())) {
@@ -27,8 +41,6 @@ public class Service {
         return modelMapper.map(posts, PostsDTO.class);
     }
 
-    @Autowired
-    private CommentsRepository commentsRepository;
     @Transactional
     public CommentsDTO saveComments(CommentsDTO commentsDTO) {
         if (commentsRepository.existsById(commentsDTO.getId())) {
@@ -41,8 +53,6 @@ public class Service {
         return modelMapper.map(comments, CommentsDTO.class);
     }
 
-    @Autowired
-    private AlbumsRepository albumsRepository;
     @Transactional
     public AlbumsDTO saveAlbums(AlbumsDTO albumsDTO) {
         if (albumsRepository.existsById(albumsDTO.getId())) {
@@ -55,8 +65,6 @@ public class Service {
         return modelMapper.map(albums, AlbumsDTO.class);
     }
 
-    @Autowired
-    private PhotosRepository photosRepository;
     @Transactional
     public PhotosDTO savePhotos(PhotosDTO photosDTO) {
         if (photosRepository.existsById(photosDTO.getId())) {
@@ -69,8 +77,6 @@ public class Service {
         return modelMapper.map(photos, PhotosDTO.class);
     }
 
-    @Autowired
-    private TodosRepository todosRepository;
     @Transactional
     public TodosDTO saveTodos(TodosDTO todosDTO) {
         if (todosRepository.existsById(todosDTO.getId())) {
@@ -81,5 +87,17 @@ public class Service {
         todos = todosRepository.save(todos);
 
         return modelMapper.map(todos, TodosDTO.class);
+    }
+
+    @Transactional
+    public UsersDTO saveUsers(UsersDTO UsersDTO) {
+        if (usersRepository.existsById(UsersDTO.getId())) {
+            throw new RuntimeException("Todo med id " + UsersDTO.getId() + " findes allerede");
+        }
+
+        Users users = modelMapper.map(UsersDTO, Users.class);
+        users = usersRepository.save(users);
+
+        return modelMapper.map(users, UsersDTO.class);
     }
 }

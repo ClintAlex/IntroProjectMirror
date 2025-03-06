@@ -1,64 +1,62 @@
 package com.internship.introproject.controller;
 
 import com.internship.introproject.dto.*;
-import com.internship.introproject.service.Service;
+import com.internship.introproject.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "api/v1/save")
 public class Controller {
 
     @Autowired
-    Service Service;
+    EntityService EntityService;
 
     @PostMapping("savePosts")
     public List<PostsDTO> savePosts(@RequestBody List<PostsDTO> postsDTOs) {
-        List<PostsDTO> savedPosts = new ArrayList<>();
-        for (PostsDTO postsDTO : postsDTOs) {
-            savedPosts.add(Service.savePosts(postsDTO));
-        }
-        return savedPosts;
+        return postsDTOs.stream()
+                .map(EntityService::savePosts)
+                .collect(Collectors.toList());
+
     }
 
     @PostMapping("saveComments")
-    public List<CommentsDTO> saveComments(@RequestBody List<CommentsDTO> userDTOs) {
-        List<CommentsDTO> savedComments = new ArrayList<>();
-        for (CommentsDTO commentsDTO : userDTOs) {
-            savedComments.add(Service.saveComments(commentsDTO));
-        }
-        return savedComments;
+    public List<CommentsDTO> saveComments(@RequestBody List<CommentsDTO> commentsDTOs) {
+        return commentsDTOs.stream()
+                .map(EntityService::saveComments)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("saveAlbums")
-    public List<AlbumsDTO> saveAlbums(@RequestBody List<AlbumsDTO> userDTOs) {
-        List<AlbumsDTO> savedAlbums = new ArrayList<>();
-        for (AlbumsDTO albumsDTO : userDTOs) {
-            savedAlbums.add(Service.saveAlbums(albumsDTO));
-        }
-        return savedAlbums;
+    public List<AlbumsDTO> saveAlbums(@RequestBody List<AlbumsDTO> albumsDTOs) {
+        return albumsDTOs.stream()
+                .map(EntityService::saveAlbums)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("savePhotos")
     public List<PhotosDTO> savePhotos(@RequestBody List<PhotosDTO> photosDTOs) {
-        List<PhotosDTO> savedPhotos = new ArrayList<>();
-        for (PhotosDTO photosDTO : photosDTOs) {
-            savedPhotos.add(Service.savePhotos(photosDTO));
-        }
-        return savedPhotos;
+        return photosDTOs.stream()
+                .map(EntityService::savePhotos)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("saveTodos")
     public List<TodosDTO> saveTodos(@RequestBody List<TodosDTO> todosDTOs) {
-        List<TodosDTO> savedTodos = new ArrayList<>();
-        for (TodosDTO todosDTO : todosDTOs) {
-            savedTodos.add(Service.saveTodos(todosDTO));
-        }
-        return savedTodos;
+        return todosDTOs.stream()
+                .map(EntityService::saveTodos)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping("saveUsers")
+    public List<UsersDTO> saveUsers(@RequestBody List<UsersDTO> usersDTOs) {
+        return usersDTOs.stream()
+                .map(EntityService::saveUsers)
+                .collect(Collectors.toList());
     }
 }
