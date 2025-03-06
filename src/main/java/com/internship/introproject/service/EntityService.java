@@ -3,6 +3,7 @@ package com.internship.introproject.service;
 import com.internship.introproject.dto.*;
 import com.internship.introproject.entity.*;
 import com.internship.introproject.repository.*;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,10 @@ public class EntityService {
     private final PhotosRepository photosRepository;
     private final TodosRepository todosRepository;
     private final UsersRepository usersRepository;
+    private final EntityManager entityManager;
 
     @Autowired
-    public EntityService(ModelMapper modelMapper, PostsRepository postsRepository, CommentsRepository commentsRepository, AlbumsRepository albumsRepository, PhotosRepository photosRepository, TodosRepository todosRepository, UsersRepository usersRepository){
+    public EntityService(ModelMapper modelMapper, PostsRepository postsRepository, CommentsRepository commentsRepository, AlbumsRepository albumsRepository, PhotosRepository photosRepository, TodosRepository todosRepository, UsersRepository usersRepository, EntityManager entityManager){
         this.modelMapper = modelMapper;
         this.postsRepository = postsRepository;
         this.commentsRepository = commentsRepository;
@@ -27,6 +29,7 @@ public class EntityService {
         this.photosRepository = photosRepository;
         this.todosRepository = todosRepository;
         this.usersRepository = usersRepository;
+        this.entityManager = entityManager;
     }
 
     @Transactional
@@ -92,12 +95,18 @@ public class EntityService {
     @Transactional
     public UsersDTO saveUsers(UsersDTO UsersDTO) {
         if (usersRepository.existsById(UsersDTO.getId())) {
-            throw new RuntimeException("Todo med id " + UsersDTO.getId() + " findes allerede");
+            throw new RuntimeException("Users med id " + UsersDTO.getId() + " findes allerede");
         }
 
         Users users = modelMapper.map(UsersDTO, Users.class);
         users = usersRepository.save(users);
 
         return modelMapper.map(users, UsersDTO.class);
+    }
+
+    @Transactional
+    public void dropTable(String tableName) {
+        String sql = "TRUNCATE TABLE " + tableName;
+        entityManager.createNativeQuery(sql).executeUpdate();
     }
 }
