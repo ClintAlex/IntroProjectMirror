@@ -9,13 +9,13 @@ public class Users {
     @Id
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, length = 255)
     private String username;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, length = 255)
     private String email;
 
     @Embedded
@@ -23,16 +23,16 @@ public class Users {
 
     @Embeddable
     public static class Address {
-        @Column(name = "street", nullable = false)
+        @Column(name = "street", nullable = false, length = 255)
         private String street;
 
-        @Column(name = "suite", nullable = false)
+        @Column(name = "suite", nullable = false, length = 255)
         private String suite;
 
-        @Column(name = "city", nullable = false)
+        @Column(name = "city", nullable = false, length = 255)
         private String city;
 
-        @Column(name = "zipcode", nullable = false)
+        @Column(name = "zipcode", nullable = false, length = 255)
         private String zipcode;
 
         @Embedded
@@ -83,10 +83,10 @@ public class Users {
 
     @Embeddable
     public static class Geo {
-        @Column(name = "lat", nullable = false)
+        @Column(name = "lat", nullable = false, length = 255)
         private String lat;
 
-        @Column(name = "lng", nullable = false)
+        @Column(name = "lng", nullable = false, length = 255)
         private String lng;
 
         public Geo() {
@@ -111,10 +111,10 @@ public class Users {
             this.lng = lng;
         }
     }
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone", nullable = false, length = 255)
     private String phone;
 
-    @Column(name = "website", nullable = false)
+    @Column(name = "website", nullable = false, length = 255)
     private String website;
 
     @Embedded
@@ -123,11 +123,11 @@ public class Users {
 
     @Embeddable
     public static class Company {
-        @Column(name = "name", nullable = false)
+        @Column(name = "name", nullable = false, length = 255)
         private String name;
-        @Column(name = "catchPhrase", nullable = false)
+        @Column(name = "catchPhrase", nullable = false, length = 255)
         private String catchPhrase;
-        @Column(name = "bs", nullable = false)
+        @Column(name = "bs", nullable = false, length = 255)
         private String bs;
 
         public Company() {
