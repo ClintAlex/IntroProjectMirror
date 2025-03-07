@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "users")
 public class Users {
+
     @Id
     private Long id;
 
@@ -117,9 +118,7 @@ public class Users {
     private String website;
 
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "name", column = @Column(name = "company_name")),
-    })
+    @AttributeOverride(name = "name", column = @Column(name = "company_name"))
     private Company company;
 
     @Embeddable

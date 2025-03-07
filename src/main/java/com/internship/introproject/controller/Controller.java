@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,9 +22,20 @@ public class Controller {
     TodosRepository todosRepository;
     UsersRepository usersRepository;
     ModelMapper modelMapper;
+    EntityService entityService;
 
     @Autowired
-    EntityService entityService;
+    public Controller(AlbumsRepository albumsRepository, CommentsRepository commentsRepository, PhotosRepository photosRepository, PostsRepository postsRepository, TodosRepository todosRepository, UsersRepository usersRepository,
+    ModelMapper modelMapper, EntityService entityService) {
+        this.albumsRepository = albumsRepository;
+        this.commentsRepository = commentsRepository;
+        this.photosRepository = photosRepository;
+        this.postsRepository = postsRepository;
+        this.todosRepository = todosRepository;
+        this.usersRepository = usersRepository;
+        this.modelMapper = modelMapper;
+        this.entityService = entityService;
+    }
 
     @PostMapping("savePosts")
     public List<PostsDTO> savePosts(@RequestBody List<PostsDTO> postsDTOs) {

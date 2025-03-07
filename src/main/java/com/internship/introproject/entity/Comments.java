@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "comments")
 public class Comments {
+
     @Id
     private Long id;
 
@@ -23,7 +24,7 @@ public class Comments {
     public Comments() {
     }
 
-    public Comments(Long id, int userId, String title, String body) {
+    public Comments(Long id, int postId, String name, String email, String body) {
         this.id = id;
         this.postId = postId;
         this.name = name;
@@ -34,27 +35,30 @@ public class Comments {
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
-
-    public int getPostId() {return postId; }
-
-    public void setPostId(int postId) { this.postId = postId; }
-
-    public String getName() { return name; }
-
-    public void setName(String name) { this.name = name; }
-
-    public String getEmail() { return email; }
-
-    public void setEmail(String email) { this.email = email; }
-
+    public int getPostId() {
+        return postId;
+    }
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
     public String getBody() {
         return body;
     }
-
     public void setBody(String body) {
         this.body = body;
     }

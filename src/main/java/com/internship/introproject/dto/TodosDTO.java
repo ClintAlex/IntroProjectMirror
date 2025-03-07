@@ -1,6 +1,7 @@
 package com.internship.introproject.dto;
 
 public class TodosDTO {
+
     private long id;
     private int userId;
     private String title;

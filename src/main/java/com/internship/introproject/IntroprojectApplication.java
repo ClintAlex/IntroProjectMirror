@@ -11,6 +11,7 @@ public class IntroprojectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(IntroprojectApplication.class, args);
 	}
+
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();

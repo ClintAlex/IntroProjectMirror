@@ -1,6 +1,7 @@
 package com.internship.introproject.dto;
 
 public class UsersDTO {
+
     private long id;
     private String name;
     private String username;
