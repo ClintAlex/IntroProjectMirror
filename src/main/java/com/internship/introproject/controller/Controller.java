@@ -1,6 +1,7 @@
 package com.internship.introproject.controller;
 
 import com.internship.introproject.dto.*;
+import com.internship.introproject.entity.Users;
 import com.internship.introproject.repository.*;
 import com.internship.introproject.service.EntityService;
 import org.modelmapper.ModelMapper;
@@ -117,8 +118,31 @@ public class Controller {
     @GetMapping("getUsers")
     public List<UsersDTO> getUsers() {
         return usersRepository.findAll().stream()
-                .map(user -> modelMapper.map(user, UsersDTO.class))
+                .map(user -> mapUserToDTO(user))
                 .collect(Collectors.toList());
+    }
+
+    private UsersDTO mapUserToDTO(Users user) {
+        UsersDTO dto = modelMapper.map(user, UsersDTO.class);
+
+        if (user.getAddress() != null) {
+            UsersDTO.AddressDTO addressDTO = new UsersDTO.AddressDTO();
+            addressDTO.setStreet(user.getAddress().getStreet());
+            addressDTO.setSuite(user.getAddress().getSuite());
+            addressDTO.setCity(user.getAddress().getCity());
+            addressDTO.setZipcode(user.getAddress().getZipcode());
+
+            if (user.getAddress().getGeo() != null) {
+                UsersDTO.GeoDTO geoDTO = new UsersDTO.GeoDTO();
+                geoDTO.setLat(user.getAddress().getGeo().getLat());
+                geoDTO.setLng(user.getAddress().getGeo().getLng());
+                addressDTO.setGeoDTO(geoDTO);
+            }
+
+            dto.setAddress(addressDTO);
+        }
+
+        return dto;
     }
 
     @PostMapping("/truncateTable")
