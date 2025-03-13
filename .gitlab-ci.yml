@@ -10,6 +10,7 @@ variables:
   POSTGRES_USER: postuser
   POSTGRES_PASSWORD: 5454
   POSTGRES_HOST: postgres
+  POSTGRES_PORT: 5432
   SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/db1"
   SPRING_DATASOURCE_USERNAME: "postuser"
   SPRING_DATASOURCE_PASSWORD: "5454"
@@ -17,10 +18,15 @@ variables:
 services:
   - name: postgres:latest
     alias: postgres
+    command: ["postgres", "-c", "log_statement=all"]  # Enable full logging
 
 before_script:
   - echo "Waiting for PostgreSQL to be ready..."
-  - until pg_isready -h $POSTGRES_HOST -p 5432 -U $POSTGRES_USER; do sleep 5; done
+  - until docker run --rm --network=host postgres:latest pg_isready -h postgres -p 5432 -U $POSTGRES_USER; do
+    echo "Waiting for database...";
+    sleep 5;
+    done
+  - echo "PostgreSQL is ready!"
 
 maven-build:
   stage: build
