@@ -1,28 +1,3 @@
-#image: maven:3.9.9-eclipse-temurin-23
-#
-#stages:
-#  - setup
-#  - build
-#  - deploy
-#
-#variables:
-#  POSTGRES_DB: db1
-#  POSTGRES_USER: postuser
-#  POSTGRES_PASSWORD: 5454
-#  POSTGRES_HOST: postgres
-#  POSTGRES_PORT: 5432
-#
-#services:
-#  - name: postgres:latest
-#    alias: postgres
-#
-#maven-build:
-#  stage: build
-#  script:
-#    - mvn package -B
-#  artifacts:
-#    paths:
-#      - target/*.jar
 image: maven:3.9.9-eclipse-temurin-23
 
 services:
