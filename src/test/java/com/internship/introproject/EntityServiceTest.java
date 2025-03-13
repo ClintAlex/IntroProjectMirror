@@ -28,7 +28,6 @@ class EntityServiceTest {
 
     @Test
     void testSaveAlbum_Success() {
-        // Arrange
         AlbumsDTO albumsDTO = new AlbumsDTO();
         albumsDTO.setId(1L);
         albumsDTO.setUserId(100);
@@ -41,10 +40,8 @@ class EntityServiceTest {
         when(albumsRepository.save(album)).thenReturn(album);
         when(modelMapper.map(album, AlbumsDTO.class)).thenReturn(albumsDTO);
 
-        // Act
         AlbumsDTO savedAlbum = entityService.saveAlbums(albumsDTO);
 
-        // Assert
         assertNotNull(savedAlbum);
         assertEquals(albumsDTO.getTitle(), savedAlbum.getTitle());
         verify(albumsRepository, times(1)).save(album);
@@ -54,13 +51,11 @@ class EntityServiceTest {
 
     @Test
     void testSaveAlbum_AlreadyExists() {
-        // Arrange
         AlbumsDTO albumsDTO = new AlbumsDTO();
         albumsDTO.setId(1L);
 
         when(albumsRepository.existsById(1L)).thenReturn(true);
 
-        // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> entityService.saveAlbums(albumsDTO));
         assertEquals("Album med id 1 findes allerede", exception.getMessage());
 

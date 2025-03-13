@@ -7,6 +7,16 @@ public class PostsDTO {
     private String title;
     private String body;
 
+    public PostsDTO() {
+    }
+
+    public PostsDTO(long id, int userId, String title, String body) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+    }
+
     public long getId() {
         return id;
     }

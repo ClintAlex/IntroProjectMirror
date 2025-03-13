@@ -8,6 +8,17 @@ public class CommentsDTO {
     private String email;
     private String body;
 
+    public CommentsDTO() {
+    }
+
+    public CommentsDTO(long id, int postId, String name, String email, String body) {
+        this.id = id;
+        this.postId = postId;
+        this.name = name;
+        this.email = email;
+        this.body = body;
+    }
+
     public long getId() {
         return id;
     }

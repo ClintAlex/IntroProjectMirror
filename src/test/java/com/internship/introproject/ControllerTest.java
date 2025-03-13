@@ -1,8 +1,8 @@
 package com.internship.introproject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.internship.introproject.dto.AlbumsDTO;
-import com.internship.introproject.repository.AlbumsRepository;
+import com.internship.introproject.dto.*;
+import com.internship.introproject.dto.PostsDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -44,5 +44,81 @@ public class ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
         System.out.println("testGetAlbums completed successfully!");
+    }
+
+    @Test
+    void testSaveComment() throws Exception {
+        List<CommentsDTO> comments = List.of(new CommentsDTO(System.currentTimeMillis(), 99999, "Test Album", "Test Album", "Test Album"));
+
+        mockMvc.perform(post("/api/v1/db/saveComments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(comments)))
+                .andExpect(status().isOk());
+        System.out.println("testSaveComments completed successfully!");
+    }
+
+    @Test
+    void testGetComments() throws Exception {
+        mockMvc.perform(get("/api/v1/db/getComments"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+        System.out.println("testGetComments completed successfully!");
+    }
+
+    @Test
+    void testSavePost() throws Exception {
+        List<PostsDTO> posts = List.of(new PostsDTO(System.currentTimeMillis(), 99999, "Test Album", "Test Album"));
+
+        mockMvc.perform(post("/api/v1/db/savePosts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(posts)))
+                .andExpect(status().isOk());
+        System.out.println("testSavePosts completed successfully!");
+    }
+
+    @Test
+    void testGetPost() throws Exception {
+        mockMvc.perform(get("/api/v1/db/getPosts"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+        System.out.println("testGetPosts completed successfully!");
+    }
+
+    @Test
+    void testSavePhotos() throws Exception {
+        List<PhotosDTO> photos = List.of(new PhotosDTO(System.currentTimeMillis(), 99999, "Test Album", "Test Album", "Test Album"));
+
+        mockMvc.perform(post("/api/v1/db/savePhotos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(photos)))
+                .andExpect(status().isOk());
+        System.out.println("testSavePhotos completed successfully!");
+    }
+
+    @Test
+    void testGetPhotos() throws Exception {
+        mockMvc.perform(get("/api/v1/db/getPhotos"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+        System.out.println("testGetPhotos completed successfully!");
+    }
+
+    @Test
+    void testSaveTodos() throws Exception {
+        List<TodosDTO> todos = List.of(new TodosDTO(System.currentTimeMillis(), 99999, "Test Album", false));
+
+        mockMvc.perform(post("/api/v1/db/saveTodos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(todos)))
+                .andExpect(status().isOk());
+        System.out.println("testSaveTodos completed successfully!");
+    }
+
+    @Test
+    void testGetTodos() throws Exception {
+        mockMvc.perform(get("/api/v1/db/getTodos"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+        System.out.println("testGetTodos completed successfully!");
     }
 }

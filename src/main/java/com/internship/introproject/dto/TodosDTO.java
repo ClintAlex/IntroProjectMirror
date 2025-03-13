@@ -7,6 +7,16 @@ public class TodosDTO {
     private String title;
     private Boolean completed;
 
+    public TodosDTO() {
+    }
+
+    public TodosDTO(long id, int userId, String title, Boolean completed) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+        this.completed = completed;
+    }
+
     public long getId() {
         return id;
     }
