@@ -48,6 +48,8 @@ class EntityServiceTest {
         assertNotNull(savedAlbum);
         assertEquals(albumsDTO.getTitle(), savedAlbum.getTitle());
         verify(albumsRepository, times(1)).save(album);
+
+        System.out.println("testSaveAlbum_Success completed successfully!");
     }
 
     @Test
@@ -61,5 +63,7 @@ class EntityServiceTest {
         // Act & Assert
         RuntimeException exception = assertThrows(RuntimeException.class, () -> entityService.saveAlbums(albumsDTO));
         assertEquals("Album med id 1 findes allerede", exception.getMessage());
+
+        System.out.println("testSaveAlbum_AlreadyExists completed successfully!");
     }
 }

@@ -6,6 +6,15 @@ public class AlbumsDTO {
     private int userId;
     private String title;
 
+    public AlbumsDTO() {
+    }
+
+    public AlbumsDTO(long id, int userId, String title) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+    }
+
     public long getId() {
         return id;
     }
