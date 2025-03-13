@@ -26,29 +26,29 @@
 image: maven:3.8.6-openjdk-17
 
 services:
-  - docker:dind
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: db1
+  POSTGRES_USER: postuser
+  POSTGRES_PASSWORD: "5454"
+  POSTGRES_HOST_AUTH_METHOD: trust
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db1
+  SPRING_DATASOURCE_USERNAME: postuser
+  SPRING_DATASOURCE_PASSWORD: 5454
 
 stages:
   - build
   - test
-  - deploy
-
-variables:
-  DOCKER_DRIVER: overlay2
-  POSTGRES_USER: postuser
-  POSTGRES_PASSWORD: 5454
-  POSTGRES_DB: db1
-  DATABASE_URL: "jdbc:postgresql://localhost:5433/db1"
 
 before_script:
-  - export DATABASE_URL="jdbc:postgresql://localhost:5433/db1"
-  - docker --version
-  - docker-compose --version
+  - echo "Waiting for PostgreSQL to be ready..."
+  - until pg_isready -h postgres -p 5432 -U $POSTGRES_USER; do sleep 2; done
+  - echo "PostgreSQL is ready!"
 
 build:
   stage: build
   script:
-    - echo "Building the Spring Boot application..."
     - mvn clean package -DskipTests
   artifacts:
     paths:
@@ -56,23 +56,5 @@ build:
 
 test:
   stage: test
-  services:
-    - name: postgres:latest
-      alias: db
   script:
-    - echo "Running tests..."
     - mvn test
-
-deploy:
-  stage: deploy
-  services:
-    - name: docker:dind
-  script:
-    - echo "Starting database using Docker Compose..."
-    - docker-compose up -d
-    - echo "Waiting for the database to be ready..."
-    - until docker exec $(docker ps -q -f name=db) pg_isready -U postuser -d db1 -h localhost -p 5433; do sleep 2; done
-    - echo "Database is ready. Starting Spring Boot application..."
-    - java -jar target/*.jar
-  only:
-    - main
