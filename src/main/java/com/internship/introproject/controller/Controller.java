@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-//test3
+
 @RestController
 @RequestMapping(value = "api/v1/db")
 public class Controller {
@@ -36,6 +36,11 @@ public class Controller {
         this.usersRepository = usersRepository;
         this.modelMapper = modelMapper;
         this.entityService = entityService;
+    }
+
+    @GetMapping("/")
+    public String index() {
+        return "Hello World";
     }
 
     @PostMapping("savePosts")
@@ -118,7 +123,7 @@ public class Controller {
     @GetMapping("getUsers")
     public List<UsersDTO> getUsers() {
         return usersRepository.findAll().stream()
-                .map(user -> mapUserToDTO(user))
+                .map(this::mapUserToDTO)
                 .collect(Collectors.toList());
     }
 
