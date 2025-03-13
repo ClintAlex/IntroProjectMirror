@@ -1,22 +1,38 @@
+image: maven:3.9.9-eclipse-temurin-23
+
 stages:
   - setup
   - build
   - deploy
 
-default:
-  services:
-      - postgres:latest
 variables:
   POSTGRES_DB: db1
   POSTGRES_USER: postuser
   POSTGRES_PASSWORD: 5454
-  ports: "5433:5432"
+  POSTGRES_HOST: postgres
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/db1"
+  SPRING_DATASOURCE_USERNAME: "postuser"
+  SPRING_DATASOURCE_PASSWORD: "5454"
+
+services:
+  - name: postgres:latest
+    alias: postgres
+
+before_script:
+  - echo "Waiting for PostgreSQL to be ready..."
+  - until pg_isready -h $POSTGRES_HOST -p 5432 -U $POSTGRES_USER; do sleep 5; done
 
 maven-build:
-  image: maven:3.9.9-eclipse-temurin-23
   stage: build
   script:
     - mvn package -B
   artifacts:
     paths:
-      - target/gitlab-ci-demo.jar
+      - target/*.jar
+
+deploy:
+  stage: deploy
+  script:
+    - java -jar target/*.jar &
+  only:
+    - main
