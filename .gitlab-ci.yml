@@ -1,44 +1,78 @@
-image: maven:3.9.9-eclipse-temurin-23
+#image: maven:3.9.9-eclipse-temurin-23
+#
+#stages:
+#  - setup
+#  - build
+#  - deploy
+#
+#variables:
+#  POSTGRES_DB: db1
+#  POSTGRES_USER: postuser
+#  POSTGRES_PASSWORD: 5454
+#  POSTGRES_HOST: postgres
+#  POSTGRES_PORT: 5432
+#
+#services:
+#  - name: postgres:latest
+#    alias: postgres
+#
+#maven-build:
+#  stage: build
+#  script:
+#    - mvn package -B
+#  artifacts:
+#    paths:
+#      - target/*.jar
+image: maven:3.8.6-openjdk-17
+
+services:
+  - docker:dind
 
 stages:
-  - setup
   - build
+  - test
   - deploy
 
 variables:
-  POSTGRES_DB: db1
+  DOCKER_DRIVER: overlay2
   POSTGRES_USER: postuser
   POSTGRES_PASSWORD: 5454
-  POSTGRES_HOST: postgres
-  POSTGRES_PORT: 5432
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/db1"
-  SPRING_DATASOURCE_USERNAME: "postuser"
-  SPRING_DATASOURCE_PASSWORD: "5454"
-
-services:
-  - name: postgres:latest
-    alias: postgres
-    command: ["postgres", "-c", "log_statement=all"]  # Enable full logging
+  POSTGRES_DB: db1
+  DATABASE_URL: "jdbc:postgresql://localhost:5433/db1"
 
 before_script:
-  - echo "Waiting for PostgreSQL to be ready..."
-  - until docker run --rm --network=host postgres:latest pg_isready -h postgres -p 5432 -U $POSTGRES_USER; do
-    echo "Waiting for database...";
-    sleep 5;
-    done
-  - echo "PostgreSQL is ready!"
+  - export DATABASE_URL="jdbc:postgresql://localhost:5433/db1"
+  - docker --version
+  - docker-compose --version
 
-maven-build:
+build:
   stage: build
   script:
-    - mvn package -B
+    - echo "Building the Spring Boot application..."
+    - mvn clean package -DskipTests
   artifacts:
     paths:
       - target/*.jar
 
+test:
+  stage: test
+  services:
+    - name: postgres:latest
+      alias: db
+  script:
+    - echo "Running tests..."
+    - mvn test
+
 deploy:
   stage: deploy
+  services:
+    - name: docker:dind
   script:
-    - java -jar target/*.jar &
+    - echo "Starting database using Docker Compose..."
+    - docker-compose up -d
+    - echo "Waiting for the database to be ready..."
+    - until docker exec $(docker ps -q -f name=db) pg_isready -U postuser -d db1 -h localhost -p 5433; do sleep 2; done
+    - echo "Database is ready. Starting Spring Boot application..."
+    - java -jar target/*.jar
   only:
     - main
