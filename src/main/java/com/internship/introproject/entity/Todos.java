@@ -21,7 +21,7 @@ public class Todos {
     public Todos() {
     }
 
-    private Todos(Long id, int userId, String title, Boolean completed){
+    public Todos(Long id, int userId, String title, Boolean completed){
         this.id = id;
         this.userId = userId;
         this.title = title;

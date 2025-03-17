@@ -28,7 +28,7 @@ public class ControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void testSaveAlbum() throws Exception {
+    public void testSaveAlbum() throws Exception {
         List<AlbumsDTO> albums = List.of(new AlbumsDTO(System.currentTimeMillis(), 100, "Test Album"));
 
         mockMvc.perform(post("/api/v1/db/saveAlbums")
@@ -39,7 +39,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testGetAlbums() throws Exception {
+    public void testGetAlbums() throws Exception {
         mockMvc.perform(get("/api/v1/db/getAlbums"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
@@ -47,7 +47,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSaveComment() throws Exception {
+    public void testSaveComment() throws Exception {
         List<CommentsDTO> comments = List.of(new CommentsDTO(System.currentTimeMillis(), 99999, "Test Album", "Test Album", "Test Album"));
 
         mockMvc.perform(post("/api/v1/db/saveComments")
@@ -58,7 +58,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testGetComments() throws Exception {
+    public void testGetComments() throws Exception {
         mockMvc.perform(get("/api/v1/db/getComments"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
@@ -66,7 +66,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSavePost() throws Exception {
+    public void testSavePost() throws Exception {
         List<PostsDTO> posts = List.of(new PostsDTO(System.currentTimeMillis(), 99999, "Test Album", "Test Album"));
 
         mockMvc.perform(post("/api/v1/db/savePosts")
@@ -77,7 +77,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testGetPost() throws Exception {
+    public void testGetPost() throws Exception {
         mockMvc.perform(get("/api/v1/db/getPosts"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
@@ -85,7 +85,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSavePhotos() throws Exception {
+    public void testSavePhotos() throws Exception {
         List<PhotosDTO> photos = List.of(new PhotosDTO(System.currentTimeMillis(), 99999, "Test Album", "Test Album", "Test Album"));
 
         mockMvc.perform(post("/api/v1/db/savePhotos")
@@ -96,7 +96,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testGetPhotos() throws Exception {
+    public void testGetPhotos() throws Exception {
         mockMvc.perform(get("/api/v1/db/getPhotos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
@@ -104,7 +104,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testSaveTodos() throws Exception {
+    public void testSaveTodos() throws Exception {
         List<TodosDTO> todos = List.of(new TodosDTO(System.currentTimeMillis(), 99999, "Test Album", false));
 
         mockMvc.perform(post("/api/v1/db/saveTodos")
@@ -115,7 +115,7 @@ public class ControllerTest {
     }
 
     @Test
-    void testGetTodos() throws Exception {
+    public void testGetTodos() throws Exception {
         mockMvc.perform(get("/api/v1/db/getTodos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
