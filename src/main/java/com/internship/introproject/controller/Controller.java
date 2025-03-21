@@ -6,6 +6,7 @@ import com.internship.introproject.repository.*;
 import com.internship.introproject.service.EntityService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -52,7 +53,7 @@ public class Controller {
 
     @GetMapping("getPosts")
     public List<PostsDTO> getPosts() {
-        return postsRepository.findAll().stream()
+        return postsRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(posts -> modelMapper.map(posts, PostsDTO.class))
                 .collect(Collectors.toList());
     }
@@ -66,7 +67,7 @@ public class Controller {
 
     @GetMapping("getComments")
     public List<CommentsDTO> getComments() {
-        return commentsRepository.findAll().stream()
+        return commentsRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(comments -> modelMapper.map(comments, CommentsDTO.class))
                 .collect(Collectors.toList());
     }
@@ -80,7 +81,7 @@ public class Controller {
 
     @GetMapping("getAlbums")
     public List<AlbumsDTO> getAlbums() {
-        return albumsRepository.findAll().stream()
+        return albumsRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(albums -> modelMapper.map(albums, AlbumsDTO.class))
                 .collect(Collectors.toList());
     }
@@ -94,7 +95,7 @@ public class Controller {
 
     @GetMapping("getPhotos")
     public List<PhotosDTO> getPhotos() {
-        return photosRepository.findAll().stream()
+        return photosRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(photos -> modelMapper.map(photos, PhotosDTO.class))
                 .collect(Collectors.toList());
     }
@@ -108,7 +109,7 @@ public class Controller {
 
     @GetMapping("getTodos")
     public List<TodosDTO> getTodos() {
-        return todosRepository.findAll().stream()
+        return todosRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(todos -> modelMapper.map(todos, TodosDTO.class))
                 .collect(Collectors.toList());
     }
@@ -122,7 +123,7 @@ public class Controller {
 
     @GetMapping("getUsers")
     public List<UsersDTO> getUsers() {
-        return usersRepository.findAll().stream()
+        return usersRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(this::mapUserToDTO)
                 .collect(Collectors.toList());
     }
@@ -158,5 +159,15 @@ public class Controller {
         }
         entityService.dropTable(tableName);
         return ResponseEntity.ok("Tabel " + tableName + " truncated");
+    }
+
+    @PostMapping("/updateEntity")
+    public ResponseEntity<?> updateEntity(@RequestParam String type, @RequestBody Map<String, Object> payload) {
+        try {
+            Object updatedDto = entityService.updateEntity(type, payload);
+            return ResponseEntity.ok(updatedDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
