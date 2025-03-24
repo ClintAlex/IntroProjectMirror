@@ -146,7 +146,6 @@ public class EntityService {
         }
     }
 
-
     @Transactional
     public AlbumsDTO updateAlbums(AlbumsDTO albumsDTO) {
         if (!albumsRepository.existsById(albumsDTO.getId())) {

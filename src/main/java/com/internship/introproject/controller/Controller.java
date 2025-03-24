@@ -170,4 +170,47 @@ public class Controller {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("getPostById")
+    public ResponseEntity<?> getPostById(@RequestParam long id) {
+        return postsRepository.findById(id)
+                .map(post -> ResponseEntity.ok(modelMapper.map(post, PostsDTO.class)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("getCommentById")
+    public ResponseEntity<?> getCommentById(@RequestParam long id) {
+        return commentsRepository.findById(id)
+                .map(comment -> ResponseEntity.ok(modelMapper.map(comment, CommentsDTO.class)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("getAlbumById")
+    public ResponseEntity<?> getAlbumById(@RequestParam long id) {
+        return albumsRepository.findById(id)
+                .map(album -> ResponseEntity.ok(modelMapper.map(album, AlbumsDTO.class)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("getPhotoById")
+    public ResponseEntity<?> getPhotoById(@RequestParam long id) {
+        return photosRepository.findById(id)
+                .map(photo -> ResponseEntity.ok(modelMapper.map(photo, PhotosDTO.class)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("getTodoById")
+    public ResponseEntity<?> getTodoById(@RequestParam long id) {
+        return todosRepository.findById(id)
+                .map(todo -> ResponseEntity.ok(modelMapper.map(todo, TodosDTO.class)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("getUserById")
+    public ResponseEntity<?> getUserById(@RequestParam long id) {
+        return usersRepository.findById(id)
+                .map(this::mapUserToDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
