@@ -213,4 +213,15 @@ public class Controller {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/createEntity")
+    public ResponseEntity<?> createEntity(@RequestParam String type, @RequestBody Map<String, Object> payload) {
+        try {
+            Object createdDto = entityService.createEntity(type, payload);
+            return ResponseEntity.ok(createdDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

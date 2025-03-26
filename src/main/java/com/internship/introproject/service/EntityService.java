@@ -206,4 +206,37 @@ public class EntityService {
         return modelMapper.map(todo, TodosDTO.class);
     }
 
+    @Transactional
+    public Object createEntity(String type, Map<String, Object> payload) {
+        try {
+            switch (type.trim().toLowerCase()) {
+                case "albums":
+                    AlbumsDTO albumsDTO = objectMapper.convertValue(payload, AlbumsDTO.class);
+                    return saveAlbums(albumsDTO);
+                case "users":
+                    UsersDTO usersDTO = objectMapper.convertValue(payload, UsersDTO.class);
+                    return saveUsers(usersDTO);
+                case "posts":
+                    PostsDTO postsDTO = objectMapper.convertValue(payload, PostsDTO.class);
+                    return savePosts(postsDTO);
+                case "comments":
+                    CommentsDTO commentsDTO = objectMapper.convertValue(payload, CommentsDTO.class);
+                    return saveComments(commentsDTO);
+                case "photos":
+                    PhotosDTO photosDTO = objectMapper.convertValue(payload, PhotosDTO.class);
+                    return savePhotos(photosDTO);
+                case "todos":
+                    TodosDTO todosDTO = objectMapper.convertValue(payload, TodosDTO.class);
+                    return saveTodos(todosDTO);
+                default:
+                    throw new IllegalArgumentException("Unknown type: " + type);
+            }
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to convert payload: " + e.getMessage());
+        }
+    }
+
+
 }
