@@ -8,7 +8,9 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Sort;
 
+import java.util.List;
 import java.util.Map;
 
 @org.springframework.stereotype.Service
@@ -38,73 +40,133 @@ public class EntityService {
 
     @Transactional
     public PostsDTO savePosts(PostsDTO postsDTO) {
-        if (postsRepository.existsById(postsDTO.getId())) {
-            throw new RuntimeException("Post med id " + postsDTO.getId() + " findes allerede");
+        if (postsDTO.getId() == 0) {
+            List<Posts> postsList = postsRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+            long nextId = 1;
+            for (Posts p : postsList) {
+                if (p.getId() != nextId) {
+                    break;
+                }
+                nextId++;
+            }
+            postsDTO.setId(nextId);
+        } else {
+            if (postsRepository.existsById(postsDTO.getId())) {
+                throw new RuntimeException("Post med id " + postsDTO.getId() + " findes allerede");
+            }
         }
-
         Posts posts = modelMapper.map(postsDTO, Posts.class);
         posts = postsRepository.save(posts);
-
         return modelMapper.map(posts, PostsDTO.class);
     }
 
     @Transactional
     public CommentsDTO saveComments(CommentsDTO commentsDTO) {
-        if (commentsRepository.existsById(commentsDTO.getId())) {
-            throw new RuntimeException("Kommentar med id " + commentsDTO.getId() + " findes allerede");
+        if (commentsDTO.getId() == 0) {
+            List<Comments> commentsList = commentsRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+            long nextId = 1;
+            for (Comments c : commentsList) {
+                if (c.getId() != nextId) {
+                    break;
+                }
+                nextId++;
+            }
+            commentsDTO.setId(nextId);
+        } else {
+            if (commentsRepository.existsById(commentsDTO.getId())) {
+                throw new RuntimeException("Kommentar med id " + commentsDTO.getId() + " findes allerede");
+            }
         }
-
         Comments comments = modelMapper.map(commentsDTO, Comments.class);
         comments = commentsRepository.save(comments);
-
         return modelMapper.map(comments, CommentsDTO.class);
     }
 
     @Transactional
     public AlbumsDTO saveAlbums(AlbumsDTO albumsDTO) {
-        if (albumsRepository.existsById(albumsDTO.getId())) {
-            throw new RuntimeException("Album med id " + albumsDTO.getId() + " findes allerede");
+        if (albumsDTO.getId() == 0) {
+            List<Albums> albumList = albumsRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+            long nextId = 1;
+            for (Albums a : albumList) {
+                if (a.getId() != nextId) {
+                    break;
+                }
+                nextId++;
+            }
+            albumsDTO.setId(nextId);
+        } else {
+            if (albumsRepository.existsById(albumsDTO.getId())) {
+                throw new RuntimeException("Album med id " + albumsDTO.getId() + " findes allerede");
+            }
         }
-
         Albums albums = modelMapper.map(albumsDTO, Albums.class);
         albums = albumsRepository.save(albums);
-
         return modelMapper.map(albums, AlbumsDTO.class);
     }
 
     @Transactional
     public PhotosDTO savePhotos(PhotosDTO photosDTO) {
-        if (photosRepository.existsById(photosDTO.getId())) {
-            throw new RuntimeException("Photo med id " + photosDTO.getId() + " findes allerede");
+        if (photosDTO.getId() == 0) {
+            List<Photos> photosList = photosRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+            long nextId = 1;
+            for (Photos p : photosList) {
+                if (p.getId() != nextId) {
+                    break;
+                }
+                nextId++;
+            }
+            photosDTO.setId(nextId);
+        } else {
+            if (photosRepository.existsById(photosDTO.getId())) {
+                throw new RuntimeException("Photo med id " + photosDTO.getId() + " findes allerede");
+            }
         }
-
         Photos photos = modelMapper.map(photosDTO, Photos.class);
         photos = photosRepository.save(photos);
-
         return modelMapper.map(photos, PhotosDTO.class);
     }
 
     @Transactional
     public TodosDTO saveTodos(TodosDTO todosDTO) {
-        if (todosRepository.existsById(todosDTO.getId())) {
-            throw new RuntimeException("Todo med id " + todosDTO.getId() + " findes allerede");
+        if (todosDTO.getId() == 0) {
+            List<Todos> todosList = todosRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+            long nextId = 1;
+            for (Todos t : todosList) {
+                if (t.getId() != nextId) {
+                    break;
+                }
+                nextId++;
+            }
+            todosDTO.setId(nextId);
+        } else {
+            if (todosRepository.existsById(todosDTO.getId())) {
+                throw new RuntimeException("Todo med id " + todosDTO.getId() + " findes allerede");
+            }
         }
-
         Todos todos = modelMapper.map(todosDTO, Todos.class);
         todos = todosRepository.save(todos);
-
         return modelMapper.map(todos, TodosDTO.class);
     }
 
     @Transactional
-    public UsersDTO saveUsers(UsersDTO UsersDTO) {
-        if (usersRepository.existsById(UsersDTO.getId())) {
-            throw new RuntimeException("Users med id " + UsersDTO.getId() + " findes allerede");
+    public UsersDTO saveUsers(UsersDTO usersDTO) {
+        if (usersDTO.getId() == 0) {
+            List<Users> usersList = usersRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+            long nextId = 1;
+            for (Users u : usersList) {
+                if (u.getId() != nextId) {
+                    break;
+                }
+                nextId++;
+            }
+            usersDTO.setId(nextId);
+        } else {
+            if (usersRepository.existsById(usersDTO.getId())) {
+                throw new RuntimeException("Users med id " + usersDTO.getId() + " findes allerede");
+            }
         }
-
-        Users users = modelMapper.map(UsersDTO, Users.class);
+        Users users = modelMapper.map(usersDTO, Users.class);
         users = usersRepository.save(users);
-
         return modelMapper.map(users, UsersDTO.class);
     }
 
